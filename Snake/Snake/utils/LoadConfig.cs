@@ -12,8 +12,8 @@ public class LoadConfig
     /// <exception cref="JsonException">Thrown if the JSON content is invalid or cannot be deserialized.</exception>
     public static Dictionary<string, string> LoadJsonConfig()
     {
-        const string shortPath = "./cfg.json";
-        const string longPath = "../../../../../cfg.json";
+        const string shortPath = "./configs/main_config.json";
+        const string longPath = "../../../../../configs/main_config.json";
 
         // Determine which path to use
         string filePath = File.Exists(shortPath) ? shortPath : longPath;
