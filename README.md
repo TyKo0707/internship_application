@@ -32,8 +32,9 @@ Now we can move to implementing this environment and the solution.
 
 ## Baseline Solution
 1. **"Exterior" and "Interior" of Snake game**
-- Text
-- 
+- For small scripts and testing, I use Python, and for game simulation, I use C#. The C# engine works as follows: the selected algorithm simulates 35 million moves, saves them to a file (if `generate_moves` argument), then a task visits all grid fields using these moves, and finally displays the solution details (adds visualization if specified in `verbose`). All arguments are in the [config file](https://github.com/TyKo0707/internship_application/blob/main/cfg.json).
+- Config parameters can be changed manually or via terminal arguments. Run C# code from the root directory using `dotnet run --project ./Snake/Snake/`, which reads arguments from `cfg.json`. Modify arguments with ordered (`10 20 0`) or named (`--width 10 --height 20 --verbose 0`) arguments.
+- Note: The code doesn’t print grids for `S > 10000` by default. To change this, modify the `visualizationThreshold` in [Player.cs](https://github.com/TyKo0707/internship_application/blob/main/Snake/Snake/src/Player.cs).
 2. **Test dataset**
 - Text
 - 
