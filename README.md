@@ -52,6 +52,9 @@ Now we can move to implementing this environment and the solution.
      - **Zig-Zag Traversal**: Loops when GCD(A, B) != 1.
    - **Loop Explanation**: Coprime grid sides loop back to (0,0) after LCM(A, B) * 2 steps, making zig-zag ideal for column-like grids with LCM equal to the longest size, but unusable when GCD(A, B) != 1.
 
+Here is the comparison of the results of the two methods:
+![spiral_zigzag_results_combined](https://github.com/user-attachments/assets/fe56eb9c-7eef-4b6b-bf29-2956fbb92c15)
+
 It becomes clear that we need to choose one of the methods and improve it, and the obvious choice for this is zig-zag traversal, as it offers a simple and efficient way to cover the grid systematically. The next task is to break the method's looping during the traversal.
 
 ## Improved Solution
