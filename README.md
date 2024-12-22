@@ -31,17 +31,28 @@ The environment of the problem is [[1]](#1):
 Now we can move to implementing this environment and the solution.
 
 ## Baseline Solution
-1. **"Exterior" and "Interior" of Snake game**
-- For small scripts and testing, I use Python, and for game simulation, I use C#. The C# engine works as follows: the selected algorithm simulates 35 million moves, saves them to a file (if `generate_moves` argument), then a task visits all grid fields using these moves, and finally displays the solution details (adds visualization if specified in `verbose`). All arguments are in the [config file](https://github.com/TyKo0707/internship_application/blob/main/cfg.json).
-- Config parameters can be changed manually or via terminal arguments. Run C# code from the root directory using `dotnet run --project ./Snake/Snake/`, which reads arguments from `cfg.json`. Modify arguments with ordered (`10 20 0`) or named (`--width 10 --height 20 --verbose 0`) arguments.
-- Note: The code doesn’t print grids for `S > 10000` by default. To change this, modify the `visualizationThreshold` in [Player.cs](https://github.com/TyKo0707/internship_application/blob/main/Snake/Snake/src/Player.cs).
-2. **Test dataset**
-- [generate_tests.py](https://github.com/TyKo0707/internship_application/blob/main/generate_tests.py) generates pairs (A, B) in specific intervals, including edge (`[1, interval_end]`, `[sqrt(interval_end), sqrt(interval_end)]`) and special cases (`[k, k**2]` - will be described later), and divisor pairs for the interval’s end value. 
-- These examples are saved to a CSV file at `data/tests/` with columns: A, B, and S_interval.
-3. **Baseline solutions** (and their problems)
-- The first idea was to use the simplest methods, like **spiral** or **zig-zag** traversal.
-- Obviously, the results of these methods are not exactly suitable for this problem because of their disadvantages: the complexity of spiral traversal is O(S^2), and zig-zag falls into a loop when GCD(A, B) != 1. 
-- Why do coprime sides of a grid result in looping? We can see that after a given amount of steps, we will return to (0, 0), where we started. Furthermore, we may calculate this number of steps, which is LCM(A, B) * 2 (multiplying by 2 because in zigzag we go (+1, +1)). That is why it is ideal for column-like grids, as its LCM equals the longest size.
+1. **Snake Game Implementation**
+   - **Python** (Small Scripts/Testing): Use [main.py](https://github.com/TyKo0707/internship_application/blob/main/main.py) for experiments.
+   - **C#** (Game Simulation): Use [C# engine](https://github.com/TyKo0707/internship_application/tree/main/Snake), which:
+     - Simulates 35M moves and optionally saves them (`generate_moves` argument).
+     - Uses moves to traverse the grid, displaying solution details with optional visualization (`verbose`).
+     - Configurable via [main_config.json](https://github.com/TyKo0707/internship_application/blob/main/configs/main_config.json) or terminal arguments.
+   - **Run Instructions**: Execute from the root with `dotnet run --project ./Snake/Snake/`, passing ordered (`10 20 0`) or named (`--width 10 --height 20 --verbose 0`) arguments. 
+   - **Notes**: Grids with `S > 10000` don’t display by default. Update `visualizationThreshold` in [Player.cs](https://github.com/TyKo0707/internship_application/blob/main/Snake/Snake/src/Player.cs) to change this.
+
+2. **Test Dataset Generation**
+   - Use [generate_tests.py](https://github.com/TyKo0707/internship_application/blob/main/generate_tests.py) to create test pairs `(A, B)` in intervals with edge cases:
+     - `[1, interval_end]`, `[sqrt(interval_end), sqrt(interval_end)]`.
+     - Special cases: `[k, k**2]` and divisor pairs of the interval’s end value.
+   - Output: CSV files in `data/tests/` with columns: A, B, and S_interval.
+
+3. **Baseline Solutions and Issues**
+   - **Methods**:
+     - **Spiral Traversal**: Complexity of O(S^2).
+     - **Zig-Zag Traversal**: Loops when GCD(A, B) != 1.
+   - **Loop Explanation**: Coprime grid sides loop back to (0,0) after LCM(A, B) * 2 steps, making zig-zag ideal for column-like grids with LCM equal to the longest size, but unusable when GCD(A, B) != 1.
+
+It becomes clear that we need to choose one of the methods and improve it, and the obvious choice for this is zig-zag traversal, as it offers a simple and efficient way to cover the grid systematically. The next task is to break the method's looping during the traversal.
 
 ## Improved Solution
 1. **How to avoid looping in ZigZag method, intuition**
