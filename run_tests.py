@@ -4,16 +4,11 @@ import sys
 from tqdm import tqdm
 
 
-def parse_output(result_stdout, method, A, B):
+def parse_output(result_stdout):
     """Parses the output from the C# executable."""
-    if method == "spiral":
-        max_side = max(A, B)
-        moves_count = max_side ** 2
-        elapsed_time = 0
-    else:
-        output_lines = result_stdout.strip().split("\n")[-2:]
-        moves_count = int(output_lines[0].strip().split(':')[-1])
-        elapsed_time = float(output_lines[1].strip().split(':')[-1].replace(',', '.'))
+    output_lines = result_stdout.strip().split("\n")[-2:]
+    moves_count = int(output_lines[0].strip().split(':')[-1])
+    elapsed_time = float(output_lines[1].strip().split(':')[-1].replace(',', '.'))
     return moves_count, elapsed_time
 
 
@@ -25,10 +20,15 @@ def process_row(row, verbose, method, generate_moves):
     command = f"dotnet run --project ./Snake/Snake/ {A} {B} {verbose} {method} {generate_moves}"
 
     try:
-        result = subprocess.run(
-            command, shell=True, capture_output=True, text=True, check=True
-        )
-        moves_count, elapsed_time = parse_output(result.stdout, method, A, B)
+        if method == "spiral":
+            max_side = max(A, B)
+            moves_count = max_side ** 2
+            elapsed_time = 0
+        else:
+            result = subprocess.run(
+                command, shell=True, capture_output=True, text=True, check=True
+            )
+            moves_count, elapsed_time = parse_output(result.stdout)
         new_row = {"A": A, "B": B, "S_interval": S_interval, "TurnsCount": moves_count, "ElapsedTime": elapsed_time}
         return new_row
     except subprocess.CalledProcessError as e:

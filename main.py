@@ -21,7 +21,7 @@ parser.add_argument("--plot", default=True, type=bool,
                     help="Flag to indicate whether to plot the results of evaluation")
 
 # Test generation arguments
-parser.add_argument("--generate_test_set", default=True, type=bool,
+parser.add_argument("--generate_test_set", default=False, type=bool,
                     help="Flag to indicate whether to generate new test dataset")
 parser.add_argument("--test_set_config_path", default='./configs/test_gen_config.json', type=str,
                     help="Path to test generation config file")
@@ -39,7 +39,7 @@ def evaluate(args):
 
     # Step 2: Run the tests
     print('Running tests...')
-    args['output_path'] = f'./data/results/{args["method"]}_results1.csv'
+    args['output_path'] = f'./data/results/{args["method"]}_results.csv'
     run_tests.run(args)
     print(f'Tests run successfully, results saved to file at {args["output_path"]}\n')
 
@@ -47,12 +47,28 @@ def evaluate(args):
     if args['plot']:
         import build_plot
         args['input_path'] = args['output_path']
-        args['output_path'] = f'./img/{args["method"]}_results1.png'
+        args['output_path'] = f'./img/{args["method"]}_results.png'
         print('Plotting results...')
         build_plot.plot_results(args)
         print(f'Plot saved to file at {args["output_path"]}')
 
 
 if __name__ == '__main__':
-    args = parser.parse_args([] if "__file__" not in globals() else None)
-    evaluate(vars(args))
+    def print_args(args):
+        print(f"Main arguments:"
+              f"\n\tMethod: {args['method']}"
+              f"\n\tVerbose: {args['verbose']}"
+              f"\n\tGenerate Moves: {args['generate_moves']}\n")
+
+
+    args = vars(parser.parse_args([] if "__file__" not in globals() else None))
+
+    methods = ['spiral', 'lcm_zigzag']
+    for i in range(len(methods)):
+        print(f"Experiment {i + 1}/{len(methods)}")
+        args['method'] = methods[i]
+        args['generate_test_set'] = True if i == 0 else False
+
+        print_args(args)
+        evaluate(args)
+        print('\n' + '=' * 50 + '\n')

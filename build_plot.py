@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -23,7 +24,8 @@ def plot_results(args):
     sns.set(style="whitegrid")
     plt.figure(figsize=(12, 6))
     plt.plot(y, y * 35, color='r', linestyle='--', label='35S')
-    plt.plot(y, y * max_ratio, color='y', linestyle='--', label=f'{max_ratio}S')
+    if max_ratio <= 35:
+        plt.plot(y, y * max_ratio, color='y', linestyle='--', label=f'{max_ratio}S')
     plt.plot(y, grouped['max'], label='Maximum # of moves', color='blue')
     plt.plot(y, grouped['mean'], label='Average # of moves', color='green')
     plt.xlabel('S')

@@ -4,6 +4,6 @@
     "S_min": 1,
     "S_max": 1000000,
     "special_case_n": 5,
-    "output_file": "./data/tests/tests1.csv",
+    "output_file": "./data/tests/tests.csv",
     "verbose": 1
 }
