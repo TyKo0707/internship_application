@@ -9,24 +9,39 @@ class ArgumentHandler
         _configDefaults = configDefaults;
     }
 
+    /// <summary>
+    /// Parses command-line arguments into usable values with defaults.
+    /// </summary>
+    /// <returns>
+    /// A tuple containing:
+    /// - width (int): The screen width.
+    /// - height (int): The screen height.
+    /// - verbose (bool): Verbosity flag.
+    /// - choice (string): The user's choice.
+    /// - generateMoves (bool): Flag to generate moves.
+    /// </returns>
     public (int width, int height, bool verbose, string choice, bool generateMoves) ParseArguments()
     {
-        Dictionary<string, string> parsedArgs = ParseArgumentsToDictionary(_args);
+        var parsedArgs = ParseArgumentsToDictionary(_args);
 
         int width = GetArgumentValue(parsedArgs, "--width", "width", "positional-0",
-            defaultValue: int.Parse(_configDefaults["width"]));
+            int.Parse(_configDefaults["width"]));
         int height = GetArgumentValue(parsedArgs, "--height", "height", "positional-1",
-            defaultValue: int.Parse(_configDefaults["height"]));
-        int verbose = GetArgumentValue(parsedArgs, "--verbose", "verbose", "positional-2",
-            defaultValue: int.Parse(_configDefaults["verbose"]));
-        string choice = GetArgumentValue(parsedArgs, "--choice", "choice", "positional-3",
-            defaultValue: _configDefaults["choice"]);
-        int generateMoves = GetArgumentValue(parsedArgs, "--generate_moves", "generate_moves", "positional-4",
-            defaultValue: int.Parse(_configDefaults["generate_moves"]));
+            int.Parse(_configDefaults["height"]));
+        bool verbose = GetArgumentValue(parsedArgs, "--verbose", "verbose", "positional-2",
+            int.Parse(_configDefaults["verbose"])) > 0;
+        string choice = GetArgumentValue(parsedArgs, "--choice", "choice", "positional-3", _configDefaults["choice"]);
+        bool generateMoves = GetArgumentValue(parsedArgs, "--generate_moves", "generate_moves", "positional-4",
+            int.Parse(_configDefaults["generate_moves"])) > 0;
 
-        return (width, height, verbose > 0, choice, generateMoves > 0);
+        return (width, height, verbose, choice, generateMoves);
     }
 
+    /// <summary>
+    /// Parses the command-line arguments into a dictionary for easier lookup.
+    /// </summary>
+    /// <param name="args">The command-line arguments.</param>
+    /// <returns>A dictionary mapping argument names to their values.</returns>
     private Dictionary<string, string> ParseArgumentsToDictionary(string[] args)
     {
         var arguments = new Dictionary<string, string>();
@@ -37,46 +52,32 @@ class ArgumentHandler
             string arg = args[i];
             if (arg.StartsWith("--"))
             {
-                if (i + 1 < args.Length && !args[i + 1].StartsWith("--"))
-                {
-                    arguments[arg] = args[i + 1];
-                    i++; // Skip the value
-                }
-                else
-                {
-                    arguments[arg] = "true"; // Handle flags
-                }
+                arguments[arg] = (i + 1 < args.Length && !args[i + 1].StartsWith("--")) ? args[++i] : "true";
             }
             else
             {
-                // Handle positional arguments
-                arguments[$"positional-{positionalIndex}"] = arg;
-                positionalIndex++;
+                arguments[$"positional-{positionalIndex++}"] = arg;
             }
         }
 
         return arguments;
     }
 
-    private T GetArgumentValue<T>(Dictionary<string, string> args, string namedKey1, string namedKey2,
-        string positionalKey, T defaultValue)
+    /// <summary>
+    /// Retrieves a value from the parsed arguments or returns the default.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to return.</typeparam>
+    /// <param name="args">The dictionary of parsed arguments.</param>
+    /// <param name="namedKey1">The primary named argument key.</param>
+    /// <param name="namedKey2">The secondary named argument key.</param>
+    /// <param name="positionalKey">The key for a positional argument.</param>
+    /// <param name="defaultValue">The default value to return if no key is found.</param>
+    /// <returns>The value from the arguments or the default.</returns>
+    private T GetArgumentValue<T>(Dictionary<string, string> args, string namedKey1, string namedKey2, string positionalKey, T defaultValue)
     {
-        string value = null;
-
-        if (args.ContainsKey(namedKey1))
-        {
-            value = args[namedKey1];
-        }
-        else if (args.ContainsKey(namedKey2))
-        {
-            value = args[namedKey2];
-        }
-        else if (args.ContainsKey(positionalKey))
-        {
-            value = args[positionalKey];
-        }
-
-        if (value != null)
+        if (args.TryGetValue(namedKey1, out var value) || 
+            args.TryGetValue(namedKey2, out value) || 
+            args.TryGetValue(positionalKey, out value))
         {
             return (T)Convert.ChangeType(value, typeof(T));
         }

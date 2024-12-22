@@ -1,8 +1,8 @@
 public class Screen
 {
-    public int Width;
-    public int Height;
-    private bool FindApple;
+    public int Width { get; }
+    public int Height { get; }
+    private bool FindApple { get; }
     private string[,] ScreenVisual;
     private (int x, int y) ApplePosition;
     private int RemainingUnvisitedCells;
@@ -20,78 +20,92 @@ public class Screen
         Width = width;
         Height = height;
         FindApple = findApple;
-        ScreenVisual = new string[Height, Width];
+        ScreenVisual = InitializeScreen();
         RemainingUnvisitedCells = Height * Width - 1;
-
-        for (int i = 0; i < Height; i++)
-        for (int j = 0; j < Width; j++)
-            ScreenVisual[i, j] = " . ";
 
         if (FindApple)
         {
-            var random = new Random();
-            ApplePosition = (random.Next(Width), random.Next(Height));
-            ScreenVisual[ApplePosition.y, ApplePosition.x] = " A ";
+            PlaceApple();
         }
     }
 
-    public bool sendSignal(Snake snake)
+    private string[,] InitializeScreen()
     {
-        var (x, y) = snake.Position;
-        snake.PrevPosition = (x, y);
-        snake.PrevDirection = snake.Direction;
-
-        switch (snake.Direction)
+        var screen = new string[Height, Width];
+        for (int i = 0; i < Height; i++)
         {
-            case "u":
-                y = (y == 0) ? Height - 1 : y - 1;
-                break;
-            case "d":
-                y = (y + 1 == Height) ? 0 : y + 1;
-                break;
-            case "l":
-                x = (x == 0) ? Width - 1 : x - 1;
-                break;
-            case "r":
-                x = (x + 1 == Width) ? 0 : x + 1;
-                break;
+            for (int j = 0; j < Width; j++)
+            {
+                screen[i, j] = " . ";
+            }
         }
 
-        snake.Position = (x, y);
+        return screen;
+    }
+
+    private void PlaceApple()
+    {
+        var random = new Random();
+        ApplePosition = (random.Next(Width), random.Next(Height));
+        ScreenVisual[ApplePosition.y, ApplePosition.x] = " A ";
+    }
+
+    /// <summary>
+    /// Updates the screen and determines whether the snake has reached the apple or completed visiting all cells.
+    /// </summary>
+    /// <param name="snake">The snake object containing its position and direction.</param>
+    /// <returns>True if the game ends; otherwise, false.</returns>
+    public bool sendSignal(Snake snake)
+    {
+        MoveSnake(snake);
 
         if (FindApple)
         {
             return snake.Position == ApplePosition;
         }
-        else
+
+        if (ScreenVisual[snake.Position.y, snake.Position.x] == " . ")
         {
-            if (ScreenVisual[y, x] == " . ")
-            {
-                RemainingUnvisitedCells--;
-            }
-
-            if (RemainingUnvisitedCells > 0)
-            {
-                return false;
-            }
-
-            return true;
+            RemainingUnvisitedCells--;
         }
+
+        return RemainingUnvisitedCells == 0;
     }
 
+    private void MoveSnake(Snake snake)
+    {
+        var (x, y) = snake.Position;
+        snake.PrevPosition = (x, y);
+        snake.PrevDirection = snake.Direction;
+
+        snake.Position = snake.Direction switch
+        {
+            "u" => (x, y == 0 ? Height - 1 : y - 1),
+            "d" => (x, (y + 1) % Height),
+            "l" => (x == 0 ? Width - 1 : x - 1, y),
+            "r" => ((x + 1) % Width, y),
+            _ => (x, y)
+        };
+    }
+
+    /// <summary>
+    /// Updates the screen visuals with the snake's new position and direction.
+    /// </summary>
+    /// <param name="snake">The snake object containing its position and direction.</param>
     public void UpdateScreen(Snake snake)
     {
-        var (snakeX, snakeY) = snake.Position;
-
         if (snake.PrevPosition != null)
         {
             var (prevX, prevY) = snake.PrevPosition.Value;
             ScreenVisual[prevY, prevX] = MapDirectionsArrows[snake.PrevDirection];
         }
 
-        ScreenVisual[snakeY, snakeX] = " S ";
+        ScreenVisual[snake.Position.y, snake.Position.x] = " S ";
     }
 
+    /// <summary>
+    /// Draws the current state of the screen to the console.
+    /// </summary>
     public void DrawScreenText()
     {
         Console.WriteLine("\n" + new string('=', Width * 3 + 2));

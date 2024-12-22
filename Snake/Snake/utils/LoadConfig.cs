@@ -2,22 +2,30 @@ using System.Text.Json;
 
 public class LoadConfig
 {
+    
+    /// <summary>
+    /// Loads configuration from a JSON file into a dictionary.
+    /// The method attempts to locate the file at two possible paths.
+    /// </summary>
+    /// <returns>A dictionary containing the configuration key-value pairs.</returns>
+    /// <exception cref="FileNotFoundException">Thrown if the configuration file is not found at either path.</exception>
+    /// <exception cref="JsonException">Thrown if the JSON content is invalid or cannot be deserialized.</exception>
     public static Dictionary<string, string> LoadJsonConfig()
     {
-        var shortPath = "./cfg.json";
-        var longPath = "../../../../../cfg.json";
-        var filePath = System.IO.File.Exists(shortPath) ? shortPath : longPath;
-        
-        // Check if the file exists
+        const string shortPath = "./cfg.json";
+        const string longPath = "../../../../../cfg.json";
+
+        // Determine which path to use
+        string filePath = File.Exists(shortPath) ? shortPath : longPath;
+
         if (!File.Exists(filePath))
         {
-            throw new FileNotFoundException($"Configuration file '{filePath}' not found.");
+            throw new FileNotFoundException($"Configuration file not found at '{filePath}'.");
         }
 
-        // Read the JSON content from the file
+        // Read and deserialize JSON content
         string json = File.ReadAllText(filePath);
-
-        // Deserialize the JSON content into a dictionary
-        return JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+        return JsonSerializer.Deserialize<Dictionary<string, string>>(json) 
+               ?? throw new JsonException("Failed to deserialize configuration file.");
     }
 }
