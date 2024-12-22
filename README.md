@@ -39,8 +39,9 @@ Now we can move to implementing this environment and the solution.
 - [generate_tests.py](https://github.com/TyKo0707/internship_application/blob/main/generate_tests.py) generates pairs (A, B) in specific intervals, including edge (`[1, interval_end]`, `[sqrt(interval_end), sqrt(interval_end)]`) and special cases (`[k, k**2]` - will be described later), and divisor pairs for the interval’s end value. 
 - These examples are saved to a CSV file at `data/tests/` with columns: A, B, and S_interval.
 3. **Baseline solutions** (and their problems)
-- Text
-- 
+- The first idea was to use the simplest methods, like **spiral** or **zig-zag** traversal.
+- Obviously, the results of these methods are not exactly suitable for this problem because of their disadvantages: the complexity of spiral traversal is O(S^2), and zig-zag falls into a loop when GCD(A, B) != 1. 
+- Why do coprime sides of a grid result in looping? We can see that after a given amount of steps, we will return to (0, 0), where we started. Furthermore, we may calculate this number of steps, which is LCM(A, B) * 2 (multiplying by 2 because in zigzag we go (+1, +1)). That is why it is ideal for column-like grids, as its LCM equals the longest size.
 
 ## Improved Solution
 1. **How to avoid looping in ZigZag method, intuition**
