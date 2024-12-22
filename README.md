@@ -36,7 +36,7 @@ Now we can move to implementing this environment and the solution.
 - Config parameters can be changed manually or via terminal arguments. Run C# code from the root directory using `dotnet run --project ./Snake/Snake/`, which reads arguments from `cfg.json`. Modify arguments with ordered (`10 20 0`) or named (`--width 10 --height 20 --verbose 0`) arguments.
 - Note: The code doesn’t print grids for `S > 10000` by default. To change this, modify the `visualizationThreshold` in [Player.cs](https://github.com/TyKo0707/internship_application/blob/main/Snake/Snake/src/Player.cs).
 2. **Test dataset**
-- The Python script generates pairs (A, B) in specific intervals, including edge (`[1, interval_end]`, `[sqrt(interval_end), sqrt(interval_end)]`) and special cases (`[k, k**2]` - will be described later), and divisor pairs for the interval’s end value. 
+- [generate_tests.py](https://github.com/TyKo0707/internship_application/blob/main/generate_tests.py) generates pairs (A, B) in specific intervals, including edge (`[1, interval_end]`, `[sqrt(interval_end), sqrt(interval_end)]`) and special cases (`[k, k**2]` - will be described later), and divisor pairs for the interval’s end value. 
 - These examples are saved to a CSV file at `data/tests/` with columns: A, B, and S_interval.
 3. **Baseline solutions** (and their problems)
 - Text
