@@ -1,6 +1,6 @@
 {
-    "num_examples_per_interval": 3,
-    "num_intervals": 20,
+    "num_examples_per_interval": 10,
+    "num_intervals": 50,
     "S_min": 1,
     "S_max": 1000000,
     "special_case_n": 5,

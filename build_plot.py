@@ -30,7 +30,7 @@ def plot_results(args):
     plt.plot(y, grouped['mean'], label='Average # of moves', color='green')
     plt.xlabel('S')
     plt.ylabel('# of Turns')
-    plt.title(f'Maximum and Average Turns for each S ({method} method)')
+    plt.title(f'Maximum and Average Turns for each S ({method} method), {df.shape[0]} test cases')
     plt.legend()
     plt.savefig(args['output_path'], dpi=300)
     plt.show()

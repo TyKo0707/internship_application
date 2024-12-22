@@ -8,6 +8,7 @@ class Program
     private static readonly Dictionary<string, Action<Player, int, string>> moveGenerators = new()
     {
         { "spiral", (player, numMoves, path) => player.SimulateSpiralMoves(numMoves, path) },
+        { "zigzag", (player, numMoves, path) => player.SimulateZigZagMoves(numMoves, path) },
         { "lcm_zigzag", (player, numMoves, path) => player.SimulateLCMZigZagMoves(numMoves, path) }
     };
 
@@ -38,7 +39,11 @@ class Program
             case "spiral":
                 HandleChoice(player, "spiral", generateMoves, numMovesToGenerate, movesPath, verbose, ref totalMoves);
                 break;
-
+            
+            case "zigzag":
+                HandleChoice(player, "zigzag", generateMoves, numMovesToGenerate, movesPath, verbose, ref totalMoves);
+                break;
+            
             case "lcm_zigzag":
                 HandleChoice(player, "lcm_zigzag", generateMoves, numMovesToGenerate, movesPath, verbose, ref totalMoves);
                 break;

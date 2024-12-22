@@ -78,6 +78,7 @@ def generate_tests(args):
     intervals.append(args['S_max'] + 1)
 
     examples = generate_by_intervals(intervals, args['num_examples_per_interval'], args['special_case_n'])
+    examples = [(1, 1, '0-1')] + examples
     df_tests = pd.DataFrame(columns=['A', 'B', 'S_interval'])
     for (A, B, S) in examples:
         df_tests.loc[df_tests.shape[0]] = [A, B, S]
@@ -88,9 +89,12 @@ def generate_tests(args):
         for i, (A, B, S) in enumerate(examples[:5]):
             print(f"Example {i + 1}/{n}: A = {A}, B = {B}, S = {S}")
         print('...')
+        for i, (A, B, S) in enumerate(examples[-5:]):
+            print(f"Example {n - (5 - i) + 1}/{n}: A = {A}, B = {B}, S = {S}")
 
 
 if __name__ == '__main__':
     import json
+
     args = json.load(open("./configs/test_gen_config.json"))
     generate_tests(args)

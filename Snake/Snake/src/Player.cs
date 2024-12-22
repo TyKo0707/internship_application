@@ -12,7 +12,7 @@ public class Player
         Snake = snake;
         S = screen.Width * screen.Height;
     }
-    
+
     /// <summary>
     /// Simulates a spiral movement pattern and writes the moves to a file.
     /// </summary>
@@ -44,7 +44,27 @@ public class Player
             }
         }
     }
-    
+
+    /// <summary>
+    /// Simulates a simple zig-zag movement pattern and writes the moves to a file.
+    /// </summary>
+    /// <param name="totalMoves">The total number of moves to simulate.</param>
+    /// <param name="filePath">The path to the file where moves will be written.</param>
+    public void SimulateZigZagMoves(int totalMoves, string filePath)
+    {
+        string[] zigZagMoves = { "r", "d" };
+        int zigZagIndex = 0;
+
+        using (StreamWriter writer = new StreamWriter(filePath))
+        {
+            for (int moveCount = 0; moveCount < totalMoves; moveCount++)
+            {
+                writer.Write(zigZagMoves[zigZagIndex]);
+                zigZagIndex = (zigZagIndex + 1) % zigZagMoves.Length; // Alternate between "r" and "d"
+            }
+        }
+    }
+
     /// <summary>
     /// Simulates a zig-zag movement pattern based on the LCM of two increasing integers and writes the moves to a file.
     /// </summary>
@@ -54,7 +74,7 @@ public class Player
     public void SimulateLCMZigZagMoves(int totalMoves, string filePath, int k = 1)
     {
         int a = 1, b = 2;
-        int currentLCM = Utils.LCM(a, b); 
+        int currentLCM = Utils.LCM(a, b);
         int movesUntilNextExtraStep = currentLCM;
         int moveCount = 0;
         int zigZagIndex = 0;
@@ -76,14 +96,14 @@ public class Player
 
                     a += k;
                     b += k;
-                    
+
                     currentLCM = Utils.LCM(a, b);
                     movesUntilNextExtraStep = currentLCM;
                 }
             }
         }
     }
-    
+
     /// <summary>
     /// Plays the game by reading moves from a file, updating the game state, and optionally visualizing the progress.
     /// </summary>
@@ -123,7 +143,7 @@ public class Player
 
         return moveCount;
     }
-    
+
     /// <summary>
     /// Updates the game state (Screen.UpdateScreen), checks for end conditions (Screen.sendSignal),
     /// and optionally visualizes intermediate states.
@@ -133,7 +153,7 @@ public class Player
     public bool UpdateAndCheck(bool verbose)
     {
         Screen.UpdateScreen(Snake);
-        
+
         if (S <= visualizationThreshold && verbose)
         {
             Screen.DrawScreenText();
@@ -143,10 +163,11 @@ public class Player
         if (Screen.sendSignal(Snake))
         {
             if (S <= visualizationThreshold)
-            { 
-                Screen.UpdateScreen(Snake); 
-                Screen.DrawScreenText();    
+            {
+                Screen.UpdateScreen(Snake);
+                Screen.DrawScreenText();
             }
+
             return true;
         }
 

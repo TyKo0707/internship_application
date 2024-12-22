@@ -2,6 +2,7 @@ import pandas as pd
 import subprocess
 import sys
 from tqdm import tqdm
+import math
 
 
 def parse_output(result_stdout):
@@ -24,11 +25,16 @@ def process_row(row, verbose, method, generate_moves):
             max_side = max(A, B)
             moves_count = max_side ** 2
             elapsed_time = 0
+        elif method == "zigzag" and math.gcd(A, B) != 1:
+            moves_count = 35e6
+            elapsed_time = 0
         else:
             result = subprocess.run(
                 command, shell=True, capture_output=True, text=True, check=True
             )
             moves_count, elapsed_time = parse_output(result.stdout)
+
+        moves_count = moves_count if moves_count < 35e6 else 35e6
         new_row = {"A": A, "B": B, "S_interval": S_interval, "TurnsCount": moves_count, "ElapsedTime": elapsed_time}
         return new_row
     except subprocess.CalledProcessError as e:

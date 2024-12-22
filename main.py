@@ -63,7 +63,7 @@ if __name__ == '__main__':
 
     args = vars(parser.parse_args([] if "__file__" not in globals() else None))
 
-    methods = ['spiral', 'lcm_zigzag']
+    methods = ['spiral', 'zigzag', 'lcm_zigzag']
     for i in range(len(methods)):
         print(f"Experiment {i + 1}/{len(methods)}")
         args['method'] = methods[i]
