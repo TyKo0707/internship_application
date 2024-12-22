@@ -1,0 +1,22 @@
+{
+  "num_moves": "35000000",
+  "_comment_num_moves": "Number of moves to simulate.",
+
+  "width": "10",
+  "_comment_width": "Width of the grid for the simulation.",
+
+  "height": "10",
+  "_comment_height": "Height of the grid for the simulation.",
+
+  "verbose": "0",
+  "_comment_verbose": "Level of verbosity for output: 0 for no extra details, 1 for visualizing all intermediate states of the solution",
+
+  "choice": "lcm_zigzag",
+  "_comment_choice": "Algorithm or strategy to use for movement simulation (e.g., 'lcm_zigzag' for a specific pattern).",
+
+  "generate_moves": "0",
+  "_comment_generate_moves": "Flag to indicate whether to generate new moves: 0 for no, 1 for yes.",
+
+  "moves_path": "/Users/tyko0707/Desktop/snake_project/data/moves/",
+  "_comment_moves_path": "Path where the generated move data will be stored or loaded from."
+}
