@@ -1,0 +1,74 @@
+# General
+.DS_Store
+Thumbs.db
+
+# Python
+*.py[cod]
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+*.sqlite3
+
+# Virtual Environments
+venv/
+.env/
+.env.* 
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# C# / Rider
+bin/
+obj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vscode/
+
+# Rider IDE
+.idea/
+*.dotCover
+*.sln.iml
+
+# Logs
+*.log
+
+# Git
+*.orig
+*.rej
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.swo
+*.err
+*.log
+~$*
+
+# System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Backup files
+*.bak
+*.old
+*.backup
+
+# Generated files
+*.generated.cs
+
