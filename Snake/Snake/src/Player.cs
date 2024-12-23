@@ -85,11 +85,13 @@ public class Player
             while (moveCount < totalMoves)
             {
                 writer.Write(zigZagMoves[zigZagIndex]);
+
                 zigZagIndex = (zigZagIndex + 1) % zigZagMoves.Length;
                 moveCount++;
+                movesUntilNextExtraStep--;
 
                 // Check if it's time to add the extra "right" step
-                if (moveCount % movesUntilNextExtraStep == 0)
+                if (movesUntilNextExtraStep == 0)
                 {
                     writer.Write("r");
                     moveCount++;
