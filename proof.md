@@ -19,8 +19,8 @@ It is clear that to cover the whole grid, we must visit each cell of each diagon
 ### Step 2: Pattern of Movement
 Knowing that the algorithm utilizes a zig-zag pattern (right + down pairs of moves) and shifts (adds an additional right step). We assume that we know (or can compute) the pattern of shifts (after which move snake should make additional right move). </br>
 Then we can compute the differences of the $j_{th}$ and $j+1_{th}$ elements of this set. Let's name these sets $I$ and $L$ respectively. For example:
-- The set of indices for additional steps is $I = \{0, 2, 5, 9, 14, ...\}$. I.e. algorithm makes additional step to the right after $0_{th}$, $2_{nd}$, $5_{th}$, ... move.
-- The set of differences is then $L = \{i_{(j+1)} - i_{(j)} \mid i \in I, j \in \mathbb{N^+}, \, j < |I|\}$, which evaluates to $L = \{2, 3, 4, 5, ...\}$.
+- The set of indices for additional steps is $I =\{0, 2, 5, 9, 14, ...\}$. I.e. algorithm makes additional step to the right after $0_{th}$, $2_{nd}$, $5_{th}$, ... move.
+- The set of differences is then $L = \text{\{}i_{(j+1)} - i_{(j)} \mid i \in I, j \in \mathbb{N^+}, j < |I|\}$, which evaluates to $L = \{2, 3, 4, 5, ...\}$.
 
 It is obvious that $I, L \in \mathbb{N^+}$.
 We also need to note that in our algorithm $L$ is always increasing and we will use it later to answer the main question. 
