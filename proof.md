@@ -51,7 +51,7 @@ From the moment $n$ is reached, the algorithm will:
 1. Cover one full diagonal per additional right step, as the movement between steps exceeds the diagonal length.  
 2. Progress to the next diagonal by eventually moving right.
 
-Since the number of diagonals is finite and to cover the whole grid we need to make all diagonals visited, we can say that the grid will be covered in finite number of steps. Moreover, the algorithm will visit all diagonals in $m$ additional right steps, and $m \leq \# \text{ of diagonals}$.
+Since the number of diagonals is finite and to cover the whole grid we need to make all diagonals visited, we can say that the grid will be covered in finite number of steps. Moreover, the algorithm will visit all diagonals in $m$ additional right steps, and $m \leq$ # $\text{of diagonals}$.
 
 ---
 
