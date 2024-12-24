@@ -13,7 +13,7 @@ Let us now consider a few additional observations:
 - To calculate the complexity of the algorithm, we need to use the worst-case scenarios. Such a scenario for this problem is as follows: to find an apple, we need to traverse all the cells on the grid.
 - We can represent any grid with a snake at random position as a grid where the snake is at coordinates (0, 0). See Fig. 1.
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/79ef7107-fd1e-4703-a968-b9197d496b21" width="350" title="Figure 1">
+  <img src="https://github.com/user-attachments/assets/29e24df1-f64a-4eb1-9777-4d22c61b1975" width="350" title="Figure 1">
 </p>
 <p align="center">Figure 1: Shows that any grid with a snake can be represented as grid with a snake at position (0, 0)</p>
 
