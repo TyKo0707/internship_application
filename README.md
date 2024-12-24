@@ -58,7 +58,10 @@ Now we can move to implementing this environment and the solution.
 
 Here is the comparison of the results of the two methods:
 ![zigzag_results](https://github.com/user-attachments/assets/0a492d97-50d4-40aa-8d11-7947c7cb9ad1)
+<p align="center">Figure 2: Plot showing maximum and mean # of turns taken by the zig-zag method to cover S from different intervals and their comparison with 35S.</p>
+
 ![spiral_results](https://github.com/user-attachments/assets/1acfbe07-9e65-420a-8df4-051a1f607ad9)
+<p align="center">Figure 3: Plot showing maximum and mean # of turns taken by the spiral method to cover S from different intervals and their comparison with 35S.</p>
 
 It becomes clear that we need to choose one of the methods and improve it, and the obvious choice for this is zig-zag traversal, as it offers a simple and efficient way to cover the grid systematically. The next task is to break the method's looping during the traversal.
 
