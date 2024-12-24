@@ -57,4 +57,12 @@ Since the number of diagonals is finite and to cover the whole grid we need to m
 
 ### General Statement
 
-Given an algorithm that moves in a zig-zag pattern with periodic additional right moves at specific steps, it can be proven that if the grid dimensions $A \times B$ satisfy $\text{GCD}(A, B) \neq 1$, the algorithm will eventually cover all cells of the grid in a finite number of steps. This is due to the periodic nature of the grid, where the movement follows a set of diagonals, and the algorithm's increasing step pattern ensures that after a finite number of moves, all diagonals will be fully visited, covering the entire grid.
+*Claim*: Given an algorithm that moves in a zig-zag pattern with periodic additional right moves at specific steps from $I$ and the set of its differences $L$, where $L$ is increasing, it can be proven that if the grid dimensions $A \times B$ satisfy $\text{GCD}(A, B) \neq 1$, the algorithm will eventually cover all cells of the grid in a finite number of steps. </br>
+
+*Intuition*: This is due to the periodic nature of the grid, where the movement follows a set of diagonals, and the algorithm's increasing step pattern ensures that after a finite number of moves, all diagonals will be fully visited, covering the entire grid.
+
+---
+
+### Notes
+1. We can ommit a proof for the case where $A \times B$ satisfy $\text{GCD}(A, B) = 1$, because there will be always 1 diagonal and proof is very similar unless we are waiting for difference that is greater than $2S = 2(A \cdot B)$.
+2. There is no analysis in this file, only proof of coverage. To see the analysis, you can go to the main README.md. 
