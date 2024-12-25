@@ -56,8 +56,8 @@ The algorithm continues this process until all diagonals are visited.
 #### **Example**:
 Consider a grid with dimensions $A = 4$, $B = 6$:  
 - $\text{LCM}(4, 6) = 12$, so the length of a diagonal is $2 \cdot 12 = 24$.  
-- Assume $I = \{0, 20, 41, 63, 86, 110, 135, \dots\}$.  
-- Then $L = \{20, 21, 22, 23, 24, 25, \dots\}$.  
+- Assume $I =$ { $0, 20, 41, 63, 86, 110, 135, \dots$ }.  
+- Then $L =$ { $20, 21, 22, 23, 24, 25, \dots$ }.  
 
 Here, the first element of $L$ that satisfies $L_j \geq 2 \cdot \text{LCM}(A, B) = 24$ is $L_5 = 24$. The corresponding element in $I$ is $I_5 = 86$, meaning that after 86 moves, the algorithm begins covering each diagonal fully and the whole grid will be covered after 3 additional right steps.
 
