@@ -14,7 +14,7 @@ To simplify the analysis, we represent the grid as a set of diagonals. Let us de
 We can represent our grid as a set of diagonals in a way shown in Fig. 1. 
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/69547855-f3bd-4ea0-be4a-7ab816b622f" width="500" title="Figure 1">
+  <img src="https://github.com/user-attachments/assets/8677cf31-c3a4-4ebd-a6b9-68361d02c552" width="500" title="Figure 1">
 </p>
 <p align="center">Figure 1: We can represent a grid (a) as a set of diagonals in this way (b) (resulting grid is also toroidal-like).</p>
 
