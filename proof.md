@@ -6,16 +6,17 @@ Given an algorithm that uses a zig-zag pattern to move and makes additional righ
 ---
 
 ### Step 1: Define Diagonals
-To simplify the analysis, we represent the grid as a set of diagonals. Let us define a **diagonal** as follows:  
-- A diagonal $d_i$ starts at point $(0, i)$ on the top row of the grid and returns to the same point after $2 \cdot \text{LCM}(A, B)$ moves. This is because, with $\text{GCD}(A, B) \neq 1$, the grid's periodicity guarantees that the snake's path is toroidal-like, and it will return to the starting point after $\text{LCM}(A, B)$ right moves and $\text{LCM}(A, B)$ down moves, summing to $2 \cdot \text{LCM}(A, B)$ moves. 
-- Moreover, number of diagonal for any grid is equal to $S / (2 \cdot \text{LCM}(A, B))$, so it is either 1 or min(A, B), see Fig.1 (c). 
+To simplify the analysis, we represent the grid as a set of diagonals. Let us define a **diagonal** as follows:
+- Let's assume that A < B (B < A) and A (B) is the number of rows (columns) in a grid. 
+- Then, a diagonal $d_i$ starts at point $(0, i)$ (at point $(i, 0)$) on the first row (column) of the grid and returns to the same point after $2 \cdot \text{LCM}(A, B)$ moves. This is because, with $\text{GCD}(A, B) \neq 1$, the grid's periodicity guarantees that the snake's path is toroidal-like, and it will return to the starting point after $\text{LCM}(A, B)$ right moves and $\text{LCM}(A, B)$ down moves, summing to $2 \cdot \text{LCM}(A, B)$ moves. 
+- Moreover, number of diagonal for any grid is bottom-limited at $min(A, B)$ (even if less number of diagonals can cover the whole grid), for ease of understanding. 
 
 We can represent our grid as a set of diagonals in a way shown in Fig. 1. 
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/3650dc39-5560-41a6-8391-06d45371959a" width="500" title="Figure 1">
+  <img src="https://github.com/user-attachments/assets/69547855-f3bd-4ea0-be4a-7ab816b622f" width="500" title="Figure 1">
 </p>
-<p align="center">Figure 1: We can represent a grid (a) as a set of diagonals in this way (b) (resulting grid is also toroidal-like). Show why for some A, B, number of diagonals is 1 (c)</p>
+<p align="center">Figure 1: We can represent a grid (a) as a set of diagonals in this way (b) (resulting grid is also toroidal-like).</p>
 
 To cover the entire grid, the algorithm must visit every cell of each diagonal. For simplicity, we refer to this as **visiting all diagonals**.
 
@@ -64,5 +65,5 @@ Since the number of diagonals is finite and to cover the whole grid we need to m
 ---
 
 ### Notes
-1. We can ommit a proof for the case where $A \times B$ satisfy $\text{GCD}(A, B) = 1$, because there will be always 1 diagonal and proof is very similar unless we are waiting for difference that is greater than $2S = 2(A \cdot B)$.
+1. We can ommit a proof for the case where $A \times B$ satisfy $\text{GCD}(A, B) = 1$, because the single diagonal can cover the whole grid and proof is very similar unless we are waiting for difference that is greater than $2S = 2(A \cdot B)$.
 2. There is no analysis in this file, only proof of coverage. To see the analysis, you can go to the main README.md. 
