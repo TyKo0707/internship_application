@@ -8,7 +8,7 @@ Given an algorithm that uses a zig-zag pattern to move and makes additional righ
 ### Step 1: Define Diagonals
 To simplify the analysis, we represent the grid as a set of diagonals. Let us define a **diagonal** as follows:
 - Let's assume that A < B (B < A) and A (B) is the number of rows (columns) in a grid. 
-- Then, a diagonal $d_i$ starts at point $(0, i)$ (at point $(i, 0)$) on the first row (column) of the grid and returns to the same point after $2 \cdot \text{LCM}(A, B)$ moves. 
+- Then, a diagonal $d_i$ starts at point $(0, i)$ (at point $(i, 0)$ ) on the first row (column) of the grid and returns to the same point after $2 \cdot \text{LCM}(A, B)$ moves. 
 - The grid has a periodic structure due to the property $\text{GCD}(A, B) \neq 1$, ensuring that each diagonal is revisited cyclically.
 - Moreover, number of diagonal for any grid is bottom-limited at $min(A, B)$ (even if less number of diagonals can cover the whole grid), for ease of understanding. 
 
@@ -49,8 +49,7 @@ This is because, after $2 \cdot \text{LCM}(A, B)$ moves, the zig-zag path wraps 
 The algorithm continues this process until all diagonals are visited.
 
 #### **Concrete Mathematical Condition**
-- Let $k$ be the total number of diagonals. For any diagonal $d_i$, the algorithm will cover all its cells if
-$ \exists j_0, L_{j_{0}} \geq 2 \cdot \text{LCM}(A, B)$ and $ |L| - j_0 >= min(A, B) $ (i.e. remaining additional right steps are enought to visit each diagonal).
+- Let $k$ be the total number of diagonals. For any diagonal $d_i$, the algorithm will cover all its cells if $\exists j_0, L_{j_{0}} \geq 2 \cdot \text{LCM}(A, B)$ and $|L| - j_0 >= min(A, B)$ (i.e. remaining additional right steps are enought to visit each diagonal).
 - The increasing nature of $L$ guarantees that $j_0$ exists and is finite, as $L$ diverges to infinity. From that step onward, every additional right move ensures a full diagonal traversal.
 - If all diagonals are visited, the whole grid is covered.
 
