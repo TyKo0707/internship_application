@@ -63,12 +63,24 @@ if __name__ == '__main__':
 
     args = vars(parser.parse_args([] if "__file__" not in globals() else None))
 
-    methods = ['spiral', 'zigzag', 'lcm_zigzag']
-    for i in range(len(methods)):
-        print(f"Experiment {i + 1}/{len(methods)}")
-        args['method'] = methods[i]
-        args['generate_test_set'] = True if i == 0 else False
+    # Main experiment: evaluate single method
+    method = 'dynamic_zigzag_k20'
+    args['method'] = method
+    args['generate_test_set'] = True
+    print_args(args)
+    evaluate(args)
+    print('\n' + '=' * 50 + '\n')
 
-        print_args(args)
-        evaluate(args)
-        print('\n' + '=' * 50 + '\n')
+    # Experiment 1: evaluate few methods
+    # args['plot'] = False
+    # k_test = range(1, 51)
+    # method = 'dynamic_zigzag'
+    # for k in k_test:
+    #     print(f"K = {k}")
+    #     args['method'] = method + f'_k{k}'
+    #     args['generate_test_set'] = False
+    #     args['generate_moves'] = 1
+    #     print_args(args)
+    #     evaluate(args)
+    #     print('\n' + '=' * 50 + '\n')
+

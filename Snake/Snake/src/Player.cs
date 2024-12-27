@@ -64,18 +64,17 @@ public class Player
             }
         }
     }
-
+    
     /// <summary>
-    /// Simulates a zig-zag movement pattern based on the LCM of two increasing integers and writes the moves to a file.
+    /// Simulates a dynamic zig-zag movement pattern and writes the moves to a file.
     /// </summary>
     /// <param name="totalMoves">The total number of moves to simulate.</param>
     /// <param name="filePath">The path to the file where moves will be written.</param>
-    /// <param name="k">The integer coefficient of growth of movesUntilNextExtraStep (i.e. a and b)</param>
-    public void SimulateLCMZigZagMoves(int totalMoves, string filePath, int k = 1)
+    /// <param name="k">The integer coefficient of growth of movesUntilNextExtraStep</param>
+    public void SimulateKDynamicZigZagMoves(int totalMoves, string filePath, int k=20)
     {
-        int a = 1, b = 2;
-        int currentLCM = Utils.LCM(a, b);
-        int movesUntilNextExtraStep = currentLCM;
+        int movesUntilNextExtraStep = 1;
+        int prevMovesUntilNextExtraStep = movesUntilNextExtraStep;
         int moveCount = 0;
         int zigZagIndex = 0;
         string[] zigZagMoves = { "r", "d" };
@@ -93,14 +92,12 @@ public class Player
                 // Check if it's time to add the extra "right" step
                 if (movesUntilNextExtraStep == 0)
                 {
+                    // Console.WriteLine(moveCount);
                     writer.Write("r");
                     moveCount++;
-
-                    a += k;
-                    b += k;
-
-                    currentLCM = Utils.LCM(a, b);
-                    movesUntilNextExtraStep = currentLCM;
+                    
+                    movesUntilNextExtraStep = prevMovesUntilNextExtraStep + k;
+                    prevMovesUntilNextExtraStep = movesUntilNextExtraStep;
                 }
             }
         }

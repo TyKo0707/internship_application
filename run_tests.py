@@ -52,6 +52,8 @@ def run(args):
 
     for i, row in tqdm(df.iterrows(), total=df.shape[0]):
         result_row = process_row(row, args['verbose'], args['method'], args['generate_moves'])
+        # Disable generating moves after the first row to avoid unnecessary computation
+        args['generate_moves'] = 0
         if result_row:
             output_data.append(result_row)
 

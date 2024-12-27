@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 class Program
 {
@@ -8,8 +9,7 @@ class Program
     private static readonly Dictionary<string, Action<Player, int, string>> moveGenerators = new()
     {
         { "spiral", (player, numMoves, path) => player.SimulateSpiralMoves(numMoves, path) },
-        { "zigzag", (player, numMoves, path) => player.SimulateZigZagMoves(numMoves, path) },
-        { "lcm_zigzag", (player, numMoves, path) => player.SimulateLCMZigZagMoves(numMoves, path) }
+        { "zigzag", (player, numMoves, path) => player.SimulateZigZagMoves(numMoves, path) }
     };
 
     static void Main(string[] args)
@@ -44,8 +44,8 @@ class Program
                 HandleChoice(player, "zigzag", generateMoves, numMovesToGenerate, movesPath, verbose, ref totalMoves);
                 break;
             
-            case "lcm_zigzag":
-                HandleChoice(player, "lcm_zigzag", generateMoves, numMovesToGenerate, movesPath, verbose, ref totalMoves);
+            case string s when s.Contains("dynamic_zigzag"):
+                HandleChoice(player, choice, generateMoves, numMovesToGenerate, movesPath, verbose, ref totalMoves);
                 break;
 
             default:
@@ -64,7 +64,33 @@ class Program
 
         if (generateMoves)
         {
-            moveGenerators[choice](player, numMovesToGenerate, movesFilePath);
+            // Special handling for dynamic zigzag method
+            if (choice.Contains("dynamic_zigzag"))
+            {
+                string pattern = @"k(\d+)$";
+                Regex regex = new Regex(pattern);
+                Match match = regex.Match(choice);
+                int kValue = 0;
+                if (match.Success)
+                {
+                    string kValueStr = match.Groups[1].Value;
+                    int.TryParse(kValueStr, out kValue);
+                }
+
+                if (kValue > 0)
+                {
+                    player.SimulateKDynamicZigZagMoves(numMovesToGenerate, movesFilePath, kValue);
+                }
+                else
+                {
+                    player.SimulateKDynamicZigZagMoves(numMovesToGenerate, movesFilePath);
+                }
+            }
+            else
+            {
+                moveGenerators[choice](player, numMovesToGenerate, movesFilePath);
+            }
+            
             Console.WriteLine($"Generated {numMovesToGenerate} moves for {choice} method.");
         }
 

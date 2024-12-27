@@ -4,8 +4,9 @@ from sympy import divisors
 import pandas as pd
 
 
-def generate_edge_and_special_cases(interval_end, curr_special_case_n, special_case_n, interval_sign):
+def generate_edge_and_special_cases(interval, curr_special_case_n, special_case_n, interval_sign):
     """ Generate edge cases and special cases for the interval """
+    interval_start, interval_end = interval[0], interval[1]
     square_root = int(math.sqrt(interval_end))
     examples_in_interval = set()
     examples_in_interval.add((1, interval_end, interval_sign))
@@ -13,9 +14,9 @@ def generate_edge_and_special_cases(interval_end, curr_special_case_n, special_c
 
     # Generate special case pairs where n * n^2 is within the interval
     while curr_special_case_n * (curr_special_case_n ** 2) <= interval_end:
-        A = curr_special_case_n
-        B = curr_special_case_n ** 2
-        examples_in_interval.add((A, B, interval_sign))
+        A, B = curr_special_case_n,  curr_special_case_n ** 2
+        if A * B > interval_start:
+            examples_in_interval.add((A, B, interval_sign))
         curr_special_case_n += special_case_n
 
     return curr_special_case_n, examples_in_interval
@@ -53,7 +54,7 @@ def generate_by_intervals(intervals, num_examples_per_interval, special_case_n):
 
         # Generate edge and special cases for the current interval
         curr_special_case_n, examples_in_interval = generate_edge_and_special_cases(
-            interval_end, curr_special_case_n, special_case_n, interval_sign
+            (interval_start, interval_end), curr_special_case_n, special_case_n, interval_sign
         )
 
         curr_num_examples = len(examples_in_interval)
@@ -78,7 +79,7 @@ def generate_tests(args):
     intervals.append(args['S_max'] + 1)
 
     examples = generate_by_intervals(intervals, args['num_examples_per_interval'], args['special_case_n'])
-    examples = [(1, 1, '0-1')] + examples
+    examples = [(intervals[0] + 1, 1, f'{intervals[0]}-{intervals[0] + 1}')] + examples
     df_tests = pd.DataFrame(columns=['A', 'B', 'S_interval'])
     for (A, B, S) in examples:
         df_tests.loc[df_tests.shape[0]] = [A, B, S]
