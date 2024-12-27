@@ -67,14 +67,65 @@ It becomes clear that we need to choose one of the methods and improve it, and t
 
 ## Improved Solution
 1. **How to avoid looping in ZigZag method, intuition**
-- The original idea for breaking the loop in the zig-zag method was to take an extra step to the right (or down, it doesn't make any difference) after some constant value (i.e. after 10 steps right + down, we take an extra step right). But, this approach has disadvantages - for large S, it takes the extra step too often, which doesn't allow filling the grid quickly because of the gaps that occur. So, I came to the conclusion that it makes sense to use a dynamic number of steps before the next extra step. 
-To do this, we can use an algorithm where this value is measured using a zig-zag movement pattern based on the LCM of two increasing integers. The intuition behind this approach is as follows: 
-- Proof of coverage
-- Intuition behind the algorithm
-2. **Test results and analysis**
-- Text
-- 
-3. **Comparison of different parameters**
+- The original idea for breaking the loop in the zig-zag method was to take an extra step to the right (or down, it doesn't make any difference) after some constant value of moves. 
+- But, this approach has disadvantages - for large S, it takes the extra step too often, which doesn't allow filling the grid quickly because of the gaps that occur. 
+- So, I came to the conclusion that it makes sense to use a dynamic number of steps before the next extra step.
+- Pseudocode for the improved method:
+
+``` 
+function SimulateKDynamicZigZagMoves(k=1):
+    movesUntilNextExtraStep = 1
+    prevMovesUntilNextExtraStep = movesUntilNextExtraStep
+    moveCount = 0
+    zigZagMoves = ["r", "d"]
+    zigZagIndex = 0
+
+    while moveCount < 35_000_000:
+        // Execute the move and check if game is finished
+        executeMove(zigZagMoves[zigZagIndex])
+        sendSignal()
+
+        moveCount++
+        zigZagIndex = (zigZagIndex + 1) % 2
+
+        if --movesUntilNextExtraStep == 0:
+            // Execute additional right step and check if game is finished
+            executeMove("r")
+            sendSignal()
+            
+            // Set of all movesUntilNextExtraStep values is always increasing
+            moveCount++
+            movesUntilNextExtraStep = prevMovesUntilNextExtraStep + k
+            prevMovesUntilNextExtraStep = movesUntilNextExtraStep
+```
+
+- Intuition behind the algorithm:
+  - This algorithm dynamically adjusts the number of moves before taking an additional step. Instead of using a fixed number of steps between extra moves, the algorithm increases the interval (controlled by k). 
+  - This approach prevents the snake from looping and allows it to cover the grid more efficiently by adapting to the grid's size. It ensures better area coverage with fewer redundant moves.
+2. **Proof of coverage**
+- You can find the proof that such algorithm always covers the grid in finite number of steps at [proof.md](https://github.com/TyKo0707/internship_application/blob/main/proof.md). 
+- Insights:
+  1. **Dynamic Step Adjustment**:  
+  By adjusting the number of moves before taking an extra step, the algorithm avoids repetitive loops and fills the grid.
+  2. **Finite Coverage Guarantee**:
+  The algorithm guarantees that all grid cells will be visited in a finite number of steps, as the number of extra moves increases dynamically.
+  3. **Limitations of the proof**:
+  The proof does not show that the grid will be covered in 35S, instead, it shows that this always happens in a finite number of steps.
+- We can show that the algorithm covers grids with S < 1M in under 35S in two ways: 
+  - building a mathematical model to find the "latest" point (the point that the algorithm visits last) of all grids with dimension < S
+  - testing the algorithm on a sufficient number of cases. 
+- While the first option is useful for calculating complexity, I chose the second as it helps better understand the algorithm’s strengths and weaknesses with different inputs.
+3. **Test results and analysis**
+- Our goal now is to find which shape of the grid is the worst as k increases and to understand which value of k is the tipping point.
+  - As k increases, the number of additional steps becomes smaller. The smaller the number of extra steps, the harder it is for the algorithm to fill the square grid (justify) (Fig. 4). 
+  ![frequency_by_k](https://github.com/user-attachments/assets/05c99b30-a54f-427c-8d07-ce7f22d1724d) <p align="center">Figure 4: Frequency of adding extra step for different values of k.</p>
+  - Using this logic, we can assume that after some k the largest square grid will be the worst case. Let's create a plot and analyse it (Fig. 5).
+  ![moves_by_k](https://github.com/user-attachments/assets/d90a9f99-5add-48de-b52a-0c87deee6f7b) <p align="center">Figure 5: Number of maximum moves for different values of k, and it's comparison with the same plot but taking only A, B = (1000, 1000).</p>
+
+- We see that our assumption was correct: starting from k=18, the worst case is always the grid of size (1000, 1000), i.e. the largest square grid. Our hypothesis is confirmed.
+- Now it makes sense to take two values of k (before 18 and after 18) and compare their maximum and average values on different dimensions.
+
+4. **Comparison of different parameters**
 - Text
 - 
 
