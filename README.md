@@ -117,17 +117,29 @@ function SimulateKDynamicZigZagMoves(k=1):
 - While the first option is useful for calculating complexity, I chose the second as it helps better understand the algorithm’s strengths and weaknesses with different inputs.
 3. **Test results and analysis**
 - Our goal now is to find which shape of the grid is the worst as k increases and to understand which value of k is the tipping point.
-  - As k increases, the number of additional steps becomes smaller. The smaller the number of extra steps, the harder it is for the algorithm to fill the square grid (justify) (Fig. 4). 
-  ![frequency_by_k](https://github.com/user-attachments/assets/05c99b30-a54f-427c-8d07-ce7f22d1724d) <p align="center">Figure 4: Frequency of adding extra step for different values of k.</p>
+  - As k increases, the number of additional steps becomes smaller. The smaller the number of extra steps, the harder it is for the algorithm to fill the square grid (justify) (Fig. 4).
+<p align="center">
+<img src="https://github.com/user-attachments/assets/05c99b30-a54f-427c-8d07-ce7f22d1724d" width="750" title="frequency_by_k">
+</p>
+<p align="center">Figure 4: Frequency of adding extra step for different values of k.</p>
+
   - Using this logic, we can assume that after some k the largest square grid will be the worst case. Let's create a plot and analyse it (Fig. 5).
-  ![moves_by_k](https://github.com/user-attachments/assets/d90a9f99-5add-48de-b52a-0c87deee6f7b) <p align="center">Figure 5: Number of maximum moves for different values of k, and it's comparison with the same plot but taking only A, B = (1000, 1000).</p>
+<p align="center">
+<img src="https://github.com/user-attachments/assets/d90a9f99-5add-48de-b52a-0c87deee6f7b" width="750" title="moves_by_k">
+</p>
+<p align="center">Figure 5: Number of maximum moves for different values of k, and it's comparison with the same plot but taking only A, B = (1000, 1000).</p>
 
 - We see that our assumption was correct: starting from k=18, the worst case is always the grid of size (1000, 1000), i.e. the largest square grid. Our hypothesis is confirmed.
 - Now it makes sense to take two values of k (before 18 and after 18) and compare their maximum and average values on different dimensions.
 
 4. **Comparison of different parameters**
-- Text
-- 
+- Let's take k=11 and k=20 and compare their maximum and average values on different dimensions (Fig. 6).
+<p align="center">
+<img src="https://github.com/user-attachments/assets/e4b9015c-0b3c-4df1-8bad-3146199ee007" width="800" title="combined_k11_k20_results">
+</p>
+<p align="center">Figure 6: Plot showing maximum and mean # of turns taken by the zig-zag method with k=11 (left) and k=20 (right) to cover S.</p>
+
+- As expected, the maximum values for k=20 at each interval are square grids and the number of steps for them is always approximately equal to 11S, while for k=11 it is limited to 11S but rarely reaches this value. At the same time we see that the average value for all intervals is about the same. My conclusion is that both values of k are well suited for our problem, but from now on, when referring to the algorithm, I will imply that the default value of k in it is 11.
 
 ## Executing program
 #### Initial setup
