@@ -169,7 +169,7 @@ function SimulateKDynamicZigZagMoves(k=1):
   tipping point.
     - As k increases, the number of additional steps becomes smaller. The smaller the number of extra steps, the harder
       it is for the algorithm to fill the square grid. (Fig. 4).
-    - Proof for this is omitted; just imagine an example: grid 1000, 1000, and k=50; after the first moves, you start to make additional steps too slowly, and this leads to 26M moves to cover the grid.
+    - Proof for this is omitted; just imagine an example: grid 1000, 1000, and k=50; after the first few moves, you start to make additional steps too slowly (which causes non-infinite looping), and this leads to 26M moves to cover the grid.
 
 <p align="center">
 <img src="https://github.com/user-attachments/assets/05c99b30-a54f-427c-8d07-ce7f22d1724d" width="750" title="frequency_by_k">
