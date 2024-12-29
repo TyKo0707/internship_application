@@ -11,8 +11,8 @@
   "verbose": "0",
   "_comment_verbose": "Level of verbosity for output: 0 for no extra details, 1 for visualizing all intermediate states of the solution",
 
-  "choice": "lcm_zigzag",
-  "_comment_choice": "Algorithm or strategy to use for movement simulation (e.g., 'lcm_zigzag' for a specific pattern).",
+  "choice": "dynamic_zigzag_k1",
+  "_comment_choice": "Algorithm or strategy to use for movement simulation (e.g., 'dynamic_zigzag' for a specific pattern).",
 
   "generate_moves": "0",
   "_comment_generate_moves": "Flag to indicate whether to generate new moves: 0 for no, 1 for yes.",
