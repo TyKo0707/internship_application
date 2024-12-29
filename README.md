@@ -2,11 +2,12 @@
 
 ## Contents
 
-1. [Problem Description](#problem-description)
-2. [Baseline Solution](#baseline-solution)
-3. [Improved Solution](#improved-solution)
-4. [Executing program](#executing-program)
-5. [References](#references)
+- [Problem Description](#problem-description)
+- [Baseline Solution](#baseline-solution)
+- [Improved Solution](#improved-solution)
+- [Executing program](#executing-program)
+- [Conclusion](#conclusion)
+- [References](#references)
 
 ---
 
@@ -217,6 +218,17 @@ function SimulateKDynamicZigZagMoves(k=1):
 - It is important to note that the grid will not be shown if S > 10_000, but you can change this in [Snake/Player.cs](https://github.com/TyKo0707/internship_application/blob/main/Snake/Snake/src/Player.cs) by changing the `visualisationThreshold` variable.
 
 ## Conclusion
+
+#### Findings and Learnings
+- **Efficient Grid Traversal**: The dynamic zig-zag algorithm proved effective in traversing the grid while adhering to the problem's constraints.  
+- **Loop Avoidance**: The implementation successfully avoids loops, ensuring consistent progress throughout the grid.  
+- **Parameter Optimization**: Testing revealed that \( k=11 \) provided optimal results, balancing efficiency and adaptability.  
+- **Future Enhancements**: Further optimization is required to address edge cases.
+
+#### Future Work
+- Add theoretical proof of square grids being the worst case as k increases.
+- Incorporate adaptive heuristics to dynamically optimize k for varying grid configurations (i.e. updating k after some number of steps).
+
 
 ## References
 
