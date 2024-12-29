@@ -17,6 +17,6 @@
   "generate_moves": "0",
   "_comment_generate_moves": "Flag to indicate whether to generate new moves: 0 for no, 1 for yes.",
 
-  "moves_path": "/Users/tyko0707/Desktop/snake_project/data/moves/",
+  "moves_path": "...",
   "_comment_moves_path": "Full path where the generated move data will be stored or loaded from (i.e. full path to data/moves/)."
 }
