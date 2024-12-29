@@ -113,35 +113,49 @@ public class Player
     {
         int moveCount = 0;
 
-        using (StreamReader reader = new StreamReader(filePath))
+        try
         {
-            if (S <= visualizationThreshold)
+            using (StreamReader reader = new StreamReader(filePath))
             {
-                Screen.UpdateScreen(Snake);
-                Screen.DrawScreenText();
-            }
-
-            int currentChar;
-            while ((currentChar = reader.Read()) != -1)
-            {
-                char move = (char)currentChar;
-
-                if (char.IsWhiteSpace(move))
-                    continue;
-
-                moveCount++;
-
-                Snake.ChangeDirection(move.ToString());
-                if (UpdateAndCheck(verbose))
+                if (S <= visualizationThreshold)
                 {
+                    Screen.UpdateScreen(Snake);
+                    Screen.DrawScreenText();
+                }
+
+                int currentChar;
+                while ((currentChar = reader.Read()) != -1)
+                {
+                    char move = (char)currentChar;
+
+                    if (char.IsWhiteSpace(move))
+                        continue;
+
                     moveCount++;
-                    break;
+
+                    Snake.ChangeDirection(move.ToString());
+                    if (UpdateAndCheck(verbose))
+                    {
+                        moveCount++;
+                        break;
+                    }
                 }
             }
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Error: The specified file was not found. Please run with '--generate_moves 1' first to create the required file.");
+            Environment.Exit(1);
+        }
+        catch (IOException ex)
+        {
+            Console.WriteLine($"Error: Unable to read the file. Details: {ex.Message}");
+            Environment.Exit(1);
         }
 
         return moveCount;
     }
+
 
     /// <summary>
     /// Updates the game state (Screen.UpdateScreen), checks for end conditions (Screen.sendSignal),
